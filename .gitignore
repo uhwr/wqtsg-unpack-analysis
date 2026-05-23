@@ -1,0 +1,36 @@
+# Node modules
+node_modules/
+
+# AionRS sessions
+.aionrs/
+
+# PS1 backup
+ps1-association-backup/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Log files
+*.log
+npm-debug.log*
+
+# Temp scripts
+*.ps1
+*.bat
+*.py
+init_repo.py
+setup_git.py
+init_git.bat
+
+# Moved to 蓝牙签到模拟 project
+BrightBeacon_操作文档.md
+Start-BrightBeacon-修改过程总结.md
+Start-BrightBeacon.ps1

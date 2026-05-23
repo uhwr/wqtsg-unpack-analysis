@@ -1,0 +1,11 @@
+"use strict";
+Component({properties:{ctx:String},data:{formats:{},readOnly:!1,keyboardHeight:0,placeholder:"开始输入..."},methods:{onEditorReady:function(){var t=this;
+this.createSelectorQuery().select("#editor").context((function(e){t.data.editorCtx=e.context})).exec()},onStatusChange:function(t){var e=t.detail;
+this.setData({formats:e})},readOnlyChange:function(){this.setData({readOnly:!this.data.readOnly})},format:function(t){var e=t.target.dataset,a=e.name,n=e.value;
+a&&this.data.editorCtx.format(a,n)},insertLink:function(){var t=this;
+wx.showModal({title:"请输入超链接地址",editable:!0,placeholderText:"http://traceint.com",success:function(e){if(e.confirm){var a=e.content;
+t.data.editorCtx.insertText({text:'<a href="'+a+'">'+a+"</a>"})}}})},syncHtml:function(){var t=this;
+this.data.editorCtx.getContents({success:function(e){var a=e.html;
+t.triggerEvent("sync",t.decodeHtml(a),{})}})},decodeHtml:function(t){var e={lt:"<",gt:">",nbsp:" ",amp:"&",quot:'"'};
+return t.replace(/&(lt|gt|nbsp|amp|quot);
+/gi,(function(t,a){return e[a]}))}}});

@@ -1,0 +1,84 @@
+{
+  "entryPagePath": "pages/login/login.html",
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/tongji/tongji",
+    "pages/free/free",
+    "pages/question/question",
+    "pages/qrcode/qrcode",
+    "pages/black/black",
+    "pages/blue/blue",
+    "pages/blue/auth",
+    "pages/message/message"
+  ],
+  "page": {
+    "pages/login/login.html": {
+      "window": {}
+    },
+    "pages/index/index.html": {
+      "window": {}
+    },
+    "pages/tongji/tongji.html": {
+      "window": {}
+    },
+    "pages/free/free.html": {
+      "window": {}
+    },
+    "pages/question/question.html": {
+      "window": {}
+    },
+    "pages/qrcode/qrcode.html": {
+      "window": {}
+    },
+    "pages/black/black.html": {
+      "window": {}
+    },
+    "pages/blue/blue.html": {
+      "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#2E8BFC",
+        "navigationBarTitleText": "签到",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    "pages/blue/auth.html": {
+      "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#2E8BFC",
+        "navigationBarTitleText": "签到",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    "pages/message/message.html": {
+      "window": {}
+    }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于座位签到"
+    }
+  },
+  "global": {
+    "window": {
+      "backgroundTextStyle": "light",
+      "navigationBarBackgroundColor": "#2E8BFC",
+      "navigationBarTitleText": "我去图书馆-管理端",
+      "navigationBarTextStyle": "white"
+    }
+  },
+  "renderer": {
+    "allUsed": ["webview"],
+    "default": "webview"
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "onLocationChange",
+    "startLocationUpdateBackground",
+    "chooseAddress"
+  ],
+  "componentFramework": {
+    "allUsed": ["exparser"],
+    "default": "exparser"
+  }
+}

@@ -1,0 +1,16 @@
+"use strict";
+getApp(),require("../../utils/util.js");
+Component({distanceList:[],properties:{width:{type:Number,value:360},height:{type:Number,value:300},propLayout:{type:Object,value:{},observer:function(t,e){this.setLayout(t)}}},data:{Layout:[],maxHeight:100,maxWidth:100,scale:1,x:0,y:0,cx:0,cy:0,colors:{},show:!0},ready:function(){console.log("layout",this.properties.propLayout),this.setLayout(this.properties.propLayout)},methods:{reload:function(){this.setData({show:!1}),this.setData({show:!0})},bindTouchMove:function(t){if(2==t.touches.length){var e=t.touches[1].clientX-t.touches[0].clientX,s=t.touches[1].clientY-t.touches[0].clientY,i=Math.sqrt(e*e+s*s);
+if(this.distanceList.push(i),this.distanceList.length<2)return;
+this.distanceList.length>3&&this.distanceList.shift();
+var a=this.distanceList[1]-this.distanceList[0],o=this.data.scale+.005*a;
+o=(o=o>2?2:o)<.2?.2:o,this.setData({scale:o})}},bindTouchEnd:function(t){this.distanceList=[]},bindTouchStart:function(t){if(2==t.touches.length){this.distanceList=[];
+var e=(t.touches[1].clientX+t.touches[0].clientX)/2,s=(t.touches[1].clientY+t.touches[0].clientY)/2;
+this.setData({cx:e,cy:s})}},setColors:function(t){var e={};
+for(var s in t)e[s]="grid_active";
+this.setData({colors:e})},seatClick:function(t){console.log("seatClick",t);
+var e=t.currentTarget.dataset.seat;
+e&&(console.log("seatClick-color"),this.triggerEvent("seatClick",{seat:e,event:t}))},setLayout:function(t){if(t.max_y&&t.max_x){var e=35*(t.max_y+2),s=35*(t.max_x+2);
+s=s*this.data.scale<this.properties.width?this.properties.width:s,e=e*this.data.scale<this.properties.height?this.properties.height:e;
+var i=parseInt((this.properties.width-s)/2),a=parseInt((this.properties.height-e)/2);
+console.log("maxWidth",s,"maxHeight",e,"properties:",this.properties.width,this.properties.height),console.log("x",i,"y",a),this.setData({layout:t,maxHeight:e,maxWidth:s,x:i,y:a,cx:s/2,cy:e/2})}this.reload()}}});

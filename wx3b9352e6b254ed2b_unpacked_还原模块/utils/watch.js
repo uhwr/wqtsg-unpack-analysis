@@ -1,0 +1,11 @@
+"use strict";
+var e=require("../@babel/runtime/helpers/typeof");
+module.exports={setWatcher:function(e){var t=this,r=e.data,n=e.watch;
+Object.keys(n).forEach((function(o){for(var a=o.split("."),c=r,s=0;
+s<a.length-1;
+s++)c=c[a[s]];
+var i=a[a.length-1],u=n[o].handler||n[o],l=n[o].deep;
+t.observe(c,i,u,l,e)}))},observe:function(t,r,n,o,a){var c=this,s=t[r];
+o&&null!=s&&"object"===e(s)&&Object.keys(s).forEach((function(e){c.observe(s,e,n,o,a)}));
+var i=this;
+Object.defineProperty(t,r,{configurable:!0,enumerable:!0,set:function(e){n.call(a,e,s),s=e,o&&i.observe(t,r,n,o,a)},get:function(){return s}})}};

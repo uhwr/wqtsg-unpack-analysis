@@ -1,0 +1,10 @@
+"use strict";
+getApp();
+var t=require("../../utils/util.js"),e=(require("../../service/userService.js"),require("../../service/dataService.js")),i=(require("../../utils/wxcharts.js"),require("../../utils/schoolChange.js"));
+Page(t.merge({data:{url:"",timeList:[],ttl:0,expireAt:"",expire:{k:30,v:"30秒"},chooseTime:null,interval:null},schChangeInPage:function(t){this.data.chooseTime=null,this.fetchApiData()},downloadHandler:function(e){this.data.url?this.imgDialog.showDialog():t.showError("请先获取二维码")},timeChangeHandler:function(e){var i=parseInt(e.detail.value);
+i<30?t.showError("参数设置错误"):this.data.chooseTime=i},reflushHandler:function(t){var e=this;
+wx.showModal({title:"强制刷新二维码",content:"强制刷新二维码会造成老码失效!",success:function(t){t.confirm&&e.fetchApiData(1)}})},timeSelectHanlder:function(t){this.timeDialog.showDialog()},cancelTimeHanlder:function(t){this.data.chooseTime=null,this.timeDialog.hideDialog()},cancelImgHanlder:function(t){this.imgDialog.hideDialog()},confirmTimeHanlder:function(i){var a=this;
+if(this.data.chooseTime){var o=e.getCurrentSch({sch_id:0});
+o.sch_id>0?e.setQrCodeExpire(o.sch_id,this.data.chooseTime).then((function(e){0==e.code&&(a.data.chooseTime=null,a.timeDialog.hideDialog(),a.fetchApiData()),t.showError(e.msg)})):t.showError("你没有设置学校")}},onReady:function(){this.dialog=this.selectComponent("#dialog"),this.timeDialog=this.selectComponent("#timeDialog"),this.imgDialog=this.selectComponent("#imgDialog")},fetchData:function(){this.setData(this.getCommonData())},fetchApiData:function(){var i=this,a=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,o=e.getCurrentSch({sch_id:0});
+if(o.sch_id>0)return e.qrcode(o.sch_id,a).then((function(e){console.log(e),0==e.code?(i.data.interval&&clearTimeout(i.data.interval),e.data.ttl<=3600&&e.data.ttl>0&&(i.data.interval=setTimeout((function(){i.fetchApiData()}),1e3*e.data.ttl)),i.setData(e.data)):t.showError(e.msg)}));
+t.showError("你没有设置学校")},onLoad:function(e){console.log("qrcode-load"),t.checkRedirect(),this.fetchData(),this.fetchApiData()}},i));

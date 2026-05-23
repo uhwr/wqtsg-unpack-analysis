@@ -1,0 +1,5 @@
+"use strict";
+var t=getApp(),e=(require("./util.js"),require("../service/dataService.js"));
+module.exports={data:{userInfo:t.globalData.userInfo,currentSch:{sch_id:0,sch_name:"学校未设置"},schList:[{sch_id:0,sch_name:"学校未设置"}]},onReady:function(){this.dialog=this.selectComponent("#dialog")},schClick:function(){this.dialog.showDialog()},userClick:function(){wx.showModal({title:"退出",content:"你确定退出当前账户",success:function(e){e.confirm&&(t.globalData.login=!0,t.globalData.userInfo=null,wx.removeStorageSync("userInfo"),wx.redirectTo({url:"../login/login"}))}})},getCommonData:function(){var i=e.getCurrentSch({sch_id:0});
+return{schList:t.globalData.schList,currentSch:i,userInfo:t.globalData.userInfo}},schChange:function(t){var i=this.data.schList[t.detail.value];
+i&&i.sch_id!=this.data.currentSch.sch_id&&(this.setData({currentSch:i}),e.setCurrentSch(i),this.schChangeInPage&&this.schChangeInPage(i)),this.dialog.hideDialog()},_cancelEvent:function(){this.dialog.hideDialog()},_confirmEvent:function(){this.dialog.hideDialog()}};

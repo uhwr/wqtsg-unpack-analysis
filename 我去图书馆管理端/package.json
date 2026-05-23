@@ -1,0 +1,17 @@
+{
+  "name": "golib-wzadmin",
+  "description": "我去图书馆小程序管理端",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.woqux.com/sz/golib-wxadmin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "wxmp-rsa": "^2.1.0"
+  }
+}

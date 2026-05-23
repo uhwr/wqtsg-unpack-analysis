@@ -1,0 +1,12 @@
+"use strict";
+var n=require("../@babel/runtime/helpers/typeof"),t=require("./util.js");
+module.exports={showLoading:function(){var n=getApp();
+n&&n.globalData&&(n.globalData.loading=1),wx.showLoading({title:"加载中",mask:!0})},hideLoading:function(){var n=getApp();
+n&&n.globalData&&(n.globalData.loading=0),wx.hideLoading()},get:function(n,t){var o=this,e=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];
+e&&this.showLoading();
+var i=new Promise((function(o,e){wx.request({url:n,data:t,success:function(n){o(self.conv(n.data))},fail:function(n){e(n)}})}));
+return e&&i.then((function(n){return o.hideLoading(),n})).catch((function(n){return o.hideLoading(),n})),i},post:function(n,t){var o=this,e=!(arguments.length>2&&void 0!==arguments[2])||arguments[2],i=this;
+e&&this.showLoading();
+var a=new Promise((function(o,e){wx.request({url:n,data:t,method:"POST",success:function(n){o(i.conv(n.data))},fail:function(n){e(n)}})}));
+return e&&a.then((function(n){return o.hideLoading(),n})).catch((function(n){return o.hideLoading(),n})),a},conv:function(t){return"object"!==n(t)?(console.log(t),{code:1,msg:"服务器数据返回错误"}):t.errors?t.errors[0]:{code:0,msg:"",data:t.data}},query:function(n,t,o){var e=!(arguments.length>3&&void 0!==arguments[3])||arguments[3];
+return this.post(n,{query:t,variables:o},e)},apiUrl:function(){return t.apiUrl()}};

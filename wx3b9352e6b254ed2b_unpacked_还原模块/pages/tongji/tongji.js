@@ -1,0 +1,16 @@
+"use strict";
+getApp();
+var t=require("../../utils/util.js"),e=(require("../../service/userService.js"),require("../../service/dataService.js")),a=require("../../utils/wxcharts.js"),i=require("../../utils/schoolChange.js"),s=null,l=null,n=null,c=null;
+Page(t.merge({data:{libs:[],dates:[],libSelect:{id:0,title:"全部场馆"},dateSelect:{id:7,title:"近7天"},tabActive:"reserve_sum",canvasShow:!0,tableData:[{date:"20180204",data:0}]},schClick:function(){this.dialog.showDialog(),this.setData({canvasShow:!1})},_cancelEvent:function(){this.dialog.hideDialog(),this.setData({canvasShow:!0})},touchHandler:function(t){s.scrollStart(t)},moveHandler:function(t){s.scroll(t)},touchEndHandler:function(t){s.scrollEnd(t),s.showToolTip(t,{format:function(t,e){return e+" "+t.name+":"+t.data}})},selectShowHandler:function(t){console.log("selectShowHandler",t.detail),this.setData({canvasShow:!t.detail.value})},libSelectHandler:function(t){var e=t.detail.value;
+e.id!==this.data.libSelect.id&&(this.setData({libSelect:e}),this.fetchApiData())},dateSelectHandler:function(t){var e=t.detail.value;
+e.id!==this.data.dateSelect.id&&(this.setData({dateSelect:e}),this.fetchApiData())},tabClick:function(t){var e=t.currentTarget.dataset.key;
+e!=this.data.tabActive&&(this.setData({tabActive:e}),this.fetchApiData(!0))},schChangeInPage:function(t){this.setData({libSelect:{id:0,title:"全部场馆"},dateSelect:{id:7,title:"近7天"}}),this.fetchApiData()},fetchData:function(){this.setData(t.merge({libs:[{id:0,title:"全部场馆"}],dates:[{id:7,title:"最近7日"},{id:30,title:"最近30日"}],tabActive:"reserve_sum",tabs:[{key:"reserve_sum",name:"预约总数"},{key:"confirm_sum",name:"签到总数"},{key:"cancel_sum",name:"退座总数"},{key:"mark_sum",name:"监督占座"},{key:"hold_sum",name:"暂离总数"}]},this.getCommonData()))},displayData:function(){var a=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i=t.getStruct(this.data.dateSelect,"id",7);
+l=e.getChartTypeData(n,this.data.tabActive,-1*i),this.rewriteChart(l,a);
+var s=[];
+console.log(l,this.data.tabActive),l.categories.forEach((function(t,e){s.push({date:t,data:l.data[e]})})),this.setData({tableData:s})},fetchApiData:function(){var a=this,i=arguments.length>0&&void 0!==arguments[0]&&arguments[0],s=e.getCurrentSch({sch_id:0}),l=s.sch_id;
+if(l>0)if(i&&n)this.displayData(i);
+else{var c=t.getStruct(this.data.libSelect,"id",0),o=t.getStruct(this.data.dateSelect,"id",7);
+console.log("tongji-fetchApiData",l,c,o),e.tongji(l,c,o).then((function(e){console.log("tongji-fetchApiData-result",e),0==e.code?(a.setData({libs:e.data.libs}),n=e.data.statis,a.displayData(i)):t.showError(e.msg)}))}else t.showError("当前学校未设置")},rewriteChart:function(t){var e=arguments.length>1&&void 0!==arguments[1]&&arguments[1],i=[{name:"统计人数",data:t.data,format:function(t,e){return t+"人"}}],l=t.categories;
+try{if(e&&s)console.log("updateData lineChart"),s.updateData({series:i,categories:l});
+else{var n=wx.getSystemInfoSync();
+c=n.windowWidth,s=new a({canvasId:"lineCanvas",type:"line",animation:!1,categories:l,series:i,xAxis:{disableGrid:!1},yAxis:{title:"人数",format:function(t){return t},min:0},width:c,height:250,dataLabel:!0,dataPointShape:!0,enableScroll:!0,extra:{lineStyle:"curve"}})}}catch(t){console.error("getSystemInfoSync failed!")}},onLoad:function(e){console.log("tongji-load"),t.checkRedirect(),this.fetchData(),this.fetchApiData()}},i));

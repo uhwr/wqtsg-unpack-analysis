@@ -1,0 +1,14 @@
+"use strict";
+var t=getApp(),a=require("../../utils/util.js"),e=(require("../../service/userService.js"),require("../../service/dataService.js")),s=(require("../../utils/wxcharts.js"),require("../../utils/schoolChange.js"));
+Page(a.merge({data:{tabActive:0,qstList:[],page:1,pageTotal:2,qst:null,answermsg:""},tabClick:function(t){var a=t.currentTarget.dataset.key;
+a!=this.data.tabActive&&(this.setData({tabActive:a,page:1,pageTotal:1}),this.fetchApiData())},answerHanlder:function(t){var a=t.currentTarget.dataset.qst;
+a&&a.is_answer||(this.setData({qst:a}),this.answerDialog.showDialog())},answerCancleHandler:function(t){this.setData({qst:null}),this.answerDialog.hideDialog()},formSubmitHandler:function(t){var s=this;
+if(this.data.qst){console.log(t);
+var i=a.getStruct(t.detail,"value.answermsg","");
+i?e.answer(this.data.qst.qst_id,i).then((function(t){if(0==t.code){console.log(s.data.qst,t);
+var e=s.getRemovedLIst(s.data.qst);
+s.setData({qst:null,answermsg:"",qstList:e}),s.answerDialog.hideDialog()}else a.showError(t.msg)})):a.showError("不能回复空消息!")}else a.showError("你没有选中问题进行回答")},getRemovedLIst:function(t){var a=this.data.qstList,e=a.findIndex((function(a){return a.qst_id==t.qst_id}));
+return console.log("removeItem",t,e),a.splice(e,1),a},schChangeInPage:function(t){this.setData({page:1,pageTotal:1,qstList:[]}),this.fetchApiData()},onReady:function(){this.dialog=this.selectComponent("#dialog"),this.answerDialog=this.selectComponent("#answerDialog")},onReachBottom:function(a){var e=this;
+console.log("onReachBottom!"),this.data.page<this.data.pageTotal&&(t.globalData.loadding||this.setData({page:this.data.page+1},(function(){e.fetchApiData(!0)})))},fetchData:function(){this.setData(a.merge({tabActive:0,tabs:[{key:0,name:"未处理问题"},{key:1,name:"已处理问题"}]},this.getCommonData()))},fetchApiData:function(){var t=this,s=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i=e.getCurrentSch({sch_id:0});
+i.sch_id>0?(console.log("question-request",i.sch_id,this.data.tabActive,this.data.page),e.qst(i.sch_id,this.data.tabActive,this.data.page).then((function(e){if(console.log("question-result",e),0==e.code){var i,o=a.getStruct(e.data,"qstList",[]),n=a.getStruct(e.data,"pageTotal",1);
+i=s?t.data.qstList:[],o.forEach((function(t){t.created_at=a.mTime(t.created_at),i.push(t)})),t.setData({qstList:i,pageTotal:n})}else a.showError(e.msg)}))):a.showError("你没有设置学校")},refrashClickHandler:function(t){this.fetchApiData()},onLoad:function(t){console.log("question-load"),a.checkRedirect(),this.fetchData(),this.fetchApiData()}},s));
